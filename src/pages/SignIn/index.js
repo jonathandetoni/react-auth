@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 import api from "../../services/api";
-import { login } from "../../services/auth";
+import { login, getToken } from "../../services/auth";
 
 import { Form, FormGroup, FormControl, ControlLabel, Button, ButtonToolbar, HelpBlock } from "rsuite";
 
@@ -20,7 +20,6 @@ class SignIn extends Component {
     } else {
       try {
         const response = await api.post("/Login", { email, senha });
-        console.log(response)
         login(response.data.acessToken);
         this.props.history.push("/app");
       } catch (err) {

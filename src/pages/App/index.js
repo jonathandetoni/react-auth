@@ -1,32 +1,23 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 import { logout } from "../../services/auth";
 
-import { Button } from "rsuite";
+import { Button, Icon } from "rsuite";
 
 class HomeApp extends Component {
   handleLogout = e => {
     logout();
-    this.props.history.push("/");
+    this.props.history.push("/app");
   };
-
-  renderActions() {
-    return (
-        <Button onClick={this.handleLogout}>
-          <i className="fa fa-times" />
-        </Button>
-    );
-  }
 
   render() {
     return (
-      <Fragment>
-        {this.renderActions()}
-      </Fragment>
+        <Button onClick={this.handleLogout}>
+          <Icon icon='close' />
+        </Button>
     );
   }
 }
 
-const App = () => (<HomeApp />);
-
-export default App;
+export default withRouter(HomeApp);
