@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import api from "../../services/api";
-import { login } from "../../services/auth";
+import { login, getToken } from "../../services/auth";
 
-import { Form, Container } from "./styles";
+import { Form, FormGroup, FormControl, ControlLabel, Button, ButtonToolbar, HelpBlock } from "rsuite";
 
 class SignIn extends Component {
   state = {
@@ -14,14 +14,12 @@ class SignIn extends Component {
   };
 
   handleSignIn = async e => {
-    e.preventDefault();
     const { email, senha } = this.state;
     if (!email || !senha) {
       this.setState({ error: "Preencha e-mail e senha para continuar!" });
     } else {
       try {
         const response = await api.post("/Login", { email, senha });
-        console.log(response)
         login(response.data.acessToken);
         this.props.history.push("/app");
       } catch (err) {
@@ -35,24 +33,23 @@ class SignIn extends Component {
 
   render() {
     return (
-      <Container>
-        <Form onSubmit={this.handleSignIn}>
-          {this.state.error && <p>{this.state.error}</p>}
-          <input
-            type="email"
-            placeholder="Endereço de e-mail"
-            onChange={e => this.setState({ email: e.target.value })}
-          />
-          <input
-            type="password"
-            placeholder="Senha"
-            onChange={e => this.setState({ senha: e.target.value })}
-          />
-          <button type="submit">Entrar</button>
-          <hr />
-          <Link to="/signup">Criar conta grátis</Link>
+        <Form layout="horizontal" onSubmit={this.handleSignIn}>
+          <FormGroup>
+            <ControlLabel>Email</ControlLabel>
+            <FormControl name="email" type="email" onChange={e => this.setState({ email: e })}/>
+            <HelpBlock tooltip>Required</HelpBlock>
+          </FormGroup>
+          <FormGroup>
+            <ControlLabel>Password</ControlLabel>
+            <FormControl name="senha" type="password" onChange={e => this.setState({ senha: e })}/>
+          </FormGroup>
+          <FormGroup>
+            <ButtonToolbar>
+              <Button appearance="primary" type="submit">Submit</Button>
+              <Button appearance="default">Cancel</Button>
+            </ButtonToolbar>
+          </FormGroup>
         </Form>
-      </Container>
     );
   }
 }
