@@ -4,8 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import Logo from "../../assets/airbnb-logo.svg";
 
 import api from "../../services/api";
-
-import { Form, Container } from "./styles";
+import { Form, Container } from "rsuite";
 
 class SignUp extends Component {
   state = {
